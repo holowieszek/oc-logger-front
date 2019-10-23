@@ -7,10 +7,12 @@
       </router-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-     <v-toolbar-items>
-        <v-btn text v-if="isLoggedIn">{{ username }}</v-btn>
-        <v-btn text to="/signin" v-else>Zaloguj się</v-btn>
-      </v-toolbar-items>
+     <v-toolbar-items v-if="isLoggedIn">
+      <v-btn text @click="signOut">Wyloguj</v-btn>
+    </v-toolbar-items>
+    <v-toolbar-items v-else>
+      <v-btn text to="/signin">Zaloguj się</v-btn>
+    </v-toolbar-items>
   </v-app-bar>
 </template>
 
@@ -19,7 +21,13 @@ import { mapGetters } from 'vuex';
 
 export default {
   data: () => ({}),
-  computed: mapGetters(['isLoggedIn', 'username'])
+  computed: mapGetters(['isLoggedIn']),
+  methods: {
+    signOut() {
+      localStorage.clear();
+      this.$router.push('/');
+    }
+  }
 }
 </script>
 
