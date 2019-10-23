@@ -19,15 +19,15 @@ export default {
   components: { Header },
   methods: mapActions(['checkIfAuthenticated']),
   created() {
-    const oauthToken = localStorage.getItem('oauth_token');
-    const oauthTokenSecret = localStorage.getItem('oauth_token_secret');
+    // const oauthToken = localStorage.getItem('oauth_token');
+    // const oauthTokenSecret = localStorage.getItem('oauth_token_secret');
 
-    const data = {
-      oauthToken,
-      oauthTokenSecret
-    }
+    // const data = {
+    //   oauthToken,
+    //   oauthTokenSecret
+    // }
 
-    this.checkIfAuthenticated(data);
+    // this.checkIfAuthenticated(data);
   }
 };
 </script>
