@@ -5,6 +5,7 @@
 <script>
 import asyncWrapper from '../../utils/asyncWrapper';
 import getParams from '../../utils/params';
+import axios from 'axios';
 
 export default {
   data: () => ({
@@ -13,7 +14,7 @@ export default {
   
   methods: {
     async getOAuthToken() {
-      const { error, result } = await asyncWrapper(this.$api.get('oauth/requestToken'));
+      const { error, result } = await asyncWrapper(axios('oauth/requestToken'));
 
       if (result) {
         const params = getParams(result.data, ['oauth_token', 'oauth_token_secret']);
