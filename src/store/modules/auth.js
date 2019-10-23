@@ -1,6 +1,5 @@
 import asyncWrapper from '../../utils/asyncWrapper';
 import getParams from '../../utils/params';
-import axios from 'axios';
 import { SET_IS_LOGGED_IN, SET_USERNAME, SET_IS_LOADING } from '../mutation-types';
 
 
