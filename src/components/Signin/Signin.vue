@@ -4,6 +4,8 @@
 
 <script>
 import asyncWrapper from '../../utils/asyncWrapper';
+import getParams from '../../utils/params';
+
 export default {
   data: () => ({
 
@@ -14,7 +16,7 @@ export default {
       const { error, result } = await asyncWrapper(this.$api.get('oauth/requestToken'));
 
       if (result) {
-        const params = this.getParams(result.data, ['oauth_token', 'oauth_token_secret']);
+        const params = getParams(result.data, ['oauth_token', 'oauth_token_secret']);
 
         localStorage.setItem('oauth_token', params.oauth_token);
         localStorage.setItem('oauth_token_secret', params.oauth_token_secret);
@@ -24,16 +26,7 @@ export default {
         console.error(error);
       }
     },
-    getParams(query, find) {
-      let params = new URLSearchParams(query);
-      const data = [];
-
-      find.map(key => {
-        return data[key] = params.get(key)
-      });
-
-      return data;
-    }
+    
   },
   created() {
     this.getOAuthToken();
