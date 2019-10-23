@@ -19,6 +19,11 @@ const routes = [
     path: '/signin-redirect',
     name: 'signin-callback',
     component: () => import(/* webpackChunkName: "about" */ '../components/Signin/Redirect'),
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import(/* webpackChunkName: "about" */ '../components/Dashboard'),
   }
 ]
 
