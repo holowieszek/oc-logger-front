@@ -8,14 +8,18 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
      <v-toolbar-items>
-        <v-btn text to="/signin">Zaloguj się</v-btn>
+        <v-btn text v-if="isLoggedIn">{{ username }}</v-btn>
+        <v-btn text to="/signin" v-else>Zaloguj się</v-btn>
       </v-toolbar-items>
   </v-app-bar>
 </template>
 
 <script>
-export default {
+import { mapGetters } from 'vuex';
 
+export default {
+  data: () => ({}),
+  computed: mapGetters(['isLoggedIn', 'username'])
 }
 </script>
 
