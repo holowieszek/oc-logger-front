@@ -9,12 +9,25 @@
 
 <script>
 import Header from './components/Header';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'App',
   data: () => ({
     //
   }),
-  components: { Header }
+  components: { Header },
+  methods: mapActions(['checkIfAuthenticated']),
+  created() {
+    const oauthToken = localStorage.getItem('oauth_token');
+    const oauthTokenSecret = localStorage.getItem('oauth_token_secret');
+
+    const data = {
+      oauthToken,
+      oauthTokenSecret
+    }
+
+    this.checkIfAuthenticated(data);
+  }
 };
 </script>
