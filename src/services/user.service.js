@@ -7,6 +7,11 @@ const UserService = {
 
     return verify;
   },
+  getOAuthToken() {
+    const oauthToken = ApiService.get('oauth/requestToken');
+
+    return oauthToken;
+  },
   getAccessToken(query) {
     const oauthVerifier = new URLSearchParams(query).get('oauth_verifier')
     const tokens = this.getCurrentUser();

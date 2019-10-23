@@ -40,6 +40,20 @@ const actions = {
       commit(SET_IS_LOADING, false)
     }
   },
+  async getOAuthToken({ commit }) {
+    const { error, result } = await asyncWrapper(UserService.getOAuthToken());
+
+    if (result) {
+      const params = getParams(result.data, ['oauth_token', 'oauth_token_secret']);
+
+      localStorage.setItem('oauth_token', params.oauth_token);
+      localStorage.setItem('oauth_token_secret', params.oauth_token_secret);
+
+      window.location.href = `https://opencaching.pl/okapi/services/oauth/authorize?oauth_token=${params.oauth_token}`; 
+    } else {
+      console.log(error);
+    }
+  },
   async getAccessToken({ commit }, query) {
     const { error, result } = await asyncWrapper(UserService.getAccessToken(query));
 
@@ -49,7 +63,7 @@ const actions = {
       localStorage.setItem('oauth_token', params.oauth_token);
       localStorage.setItem('oauth_token_secret', params.oauth_token_secret);
 
-      location.href = '/dashboard';
+      window.location.href = '/dashboard';
       
     } else {
       console.error(error);
