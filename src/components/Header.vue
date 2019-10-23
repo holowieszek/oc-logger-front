@@ -8,7 +8,7 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
      <v-toolbar-items>
-        <v-btn text to="/login">Login</v-btn>
+        <v-btn text to="/signin">Zaloguj się</v-btn>
       </v-toolbar-items>
   </v-app-bar>
 </template>
