@@ -4,6 +4,7 @@
 
 <script>
 import asyncWrapper from '../../utils/asyncWrapper';
+import getParams from '../../utils/params';
 
 export default {
   data: () => ({
@@ -25,7 +26,16 @@ export default {
 
         const { error, result } = await asyncWrapper(this.$api.post('oauth/accessToken', data));
 
-        console.log(error, result);
+        if (result) {
+          const params = getParams(result.data, ['oauth_token', 'oauth_token_secret']);
+
+          localStorage.setItem('oauth_token', params.oauth_token);
+          localStorage.setItem('oauth_token_secret', params.oauth_token_secret);
+
+          this.$router.push('/dashboard');
+        } else {
+          console.error(error);
+        }
       }
     }
   },
