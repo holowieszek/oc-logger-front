@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../components/Home'
 import asyncWrapper from '../utils/asyncWrapper';
 import store from '../store';
+import UserService from '../services/user.service';
 
 Vue.use(VueRouter)
 
@@ -10,23 +11,25 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Home,
+    meta: { public: true, onlyWhenLoggedOut: true }
   },
   {
     path: '/signin',
     name: 'signin',
-    component: () => import(/* webpackChunkName: "about" */ '../components/Signin/Signin'),
+    component: () => import(/* webpackChunkName: "signin" */ '../components/Signin/Signin'),
+    meta: { public: true, onlyWhenLoggedOut: true }
   },
   {
     path: '/signin-redirect',
     name: 'signin-callback',
-    component: () => import(/* webpackChunkName: "about" */ '../components/Signin/Redirect'),
+    component: () => import(/* webpackChunkName: "redirect" */ '../components/Signin/Redirect'),
+    meta: { public: true, onlyWhenLoggedOut: true }
   },
   {
     path: '/dashboard',
     name: 'dashboard',
-    meta: { requiresAuth: true },
-    component: () => import(/* webpackChunkName: "about" */ '../components/Dashboard'),
+    component: () => import(/* webpackChunkName: "dashboard" */ '../components/Dashboard'),
   }
 ]
 
@@ -37,8 +40,21 @@ const router = new VueRouter({
 })
 
 
-router.beforeEach((to, from, next) => {
-  store.dispatch('checkIfAuthenticated');
+router.beforeEach(async (to, from, next) => {
+  await store.dispatch('checkIfAuthenticated');
+  
+  const isPublic = to.matched.some(route => route.meta.public);
+  const onlyWhenLoggedOut = to.matched.some(route => route.meta.onlyWhenLoggedOut);
+  const isLoggedIn = store.getters.isLoggedIn;
+
+  if (!isLoggedIn && !isPublic) {
+    next({ path: '/' });
+  }
+
+  if (isLoggedIn && onlyWhenLoggedOut) {
+    next('/dashboard');
+  }
+
   next();
 });
 // router.beforeEach(async (to, from, next) => {
