@@ -1,25 +1,29 @@
 <template>
   <v-container fluid class="dashboard">
-    <!-- <h1 class="text-center">{{ username }}</h1> -->
-    <v-row>
-      <v-col lg="3" class="left">
-        <p>left</p>
+    <v-row no-gutters>
+      <v-col lg="3" class="left pa-0">
+        <Logs />
       </v-col>
-      <v-col lg="9" class="right">
-        <p>right</p>
+
+      <v-col lg="9" class="right pa-0">
+        <p class="text-center">{{ username }}</p>
+        <p class="text-center">{{ username }}</p>
+        <p class="text-center">{{ username }}</p>
+        <p class="text-center">{{ username }}</p>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import asyncWrapper from '../../utils/asyncWrapper';
+import Logs from './Logs/Logs';
 import { mapGetters } from 'vuex';
 
 export default {
   data: () => ({
 
   }),
+  components: { Logs },
   computed: mapGetters(['username'])
 }
 </script>
@@ -27,6 +31,9 @@ export default {
 <style scoped>
 .dashboard {
   background: red !important;
+  height: calc(100vh - 64px);
+  padding: 0;
+  overflow: hidden;
 }
 
 .dashboard .left {
@@ -35,5 +42,6 @@ export default {
 
 .dashboard .right {
   background: yellow;
+  height: calc(100vh - 64px);
 }
 </style>
