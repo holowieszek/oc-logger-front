@@ -6,6 +6,7 @@
       </v-col>
 
       <v-col lg="9" class="right pa-0">
+        <input type="file" id="file" ref="file" @change="test" />
         <p class="text-center">{{ username }}</p>
         <p class="text-center">{{ username }}</p>
         <p class="text-center">{{ username }}</p>
@@ -17,14 +18,38 @@
 
 <script>
 import Logs from './Logs/Logs';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   data: () => ({
-
+    items: []
   }),
   components: { Logs },
-  computed: mapGetters(['username'])
+  computed: mapGetters(['username']),
+  methods: {
+    ...mapActions(['getGeoCache']),
+    test(event) {
+      const reader = new FileReader();
+
+      reader.onload = event => {
+        const lines = event.target.result.split('\n');
+
+        for (let line = 0; line < lines.length; line++) {
+          console.log(lines[line]);
+
+          this.getGeoCache(lines[line].split(',')[0]);
+          // this.items.push(lines[line].split(','));
+          // console.log(this.items);
+        }
+      }
+
+      reader.onerror = error => {
+        console.log(error)
+      }
+
+      reader.readAsText(event.target.files[0]);
+    }
+  }
 }
 </script>
 
