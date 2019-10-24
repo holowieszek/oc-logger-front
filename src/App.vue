@@ -12,7 +12,7 @@
 
 <script>
 import Header from './components/Header';
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'App',
@@ -20,18 +20,6 @@ export default {
     //
   }),
   components: { Header },
-  computed: mapGetters(['isLoading']),
-  methods: mapActions(['checkIfAuthenticated']),
-  created() {
-    // const oauthToken = localStorage.getItem('oauth_token');
-    // const oauthTokenSecret = localStorage.getItem('oauth_token_secret');
-
-    // const data = {
-    //   oauthToken,
-    //   oauthTokenSecret
-    // }
-
-    // this.checkIfAuthenticated(data);
-  }
+  computed: mapGetters(['isLoading'])
 };
 </script>
