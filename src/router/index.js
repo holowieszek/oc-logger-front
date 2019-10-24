@@ -29,7 +29,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: () => import(/* webpackChunkName: "dashboard" */ '../components/Dashboard'),
+    component: () => import(/* webpackChunkName: "dashboard" */ '../components/Dashboard/Dashboard'),
   }
 ]
 
