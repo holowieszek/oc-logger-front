@@ -1,33 +1,69 @@
-import { SET_GEOCACHES } from '../mutation-types';
+import { SET_GEOCACHES, CLEAR_GEOCACHES, SET_FIELDNOTES, CLEAR_FIELDNOTES } from '../mutation-types';
 import OpenCachingService from '../../services/opencaching.service';
 import asyncWrapper from '../../utils/asyncWrapper';
 
 const state = {
-  geocaches: []
+  geocaches: [],
+  fieldNotes: []
 }
 
 const getters = {
   geocaches: state => {
     return state.geocaches
+  },
+  fieldNotes: state => {
+    return state.fieldNotes
   }
 }
 
 const actions = {
-  async getGeoCache({ commit }, cacheCode) {
-    const { error, result } = await asyncWrapper(OpenCachingService.getGeoCache(cacheCode));
+  async getGeoCache({ commit }, geocache) {
+    commit(CLEAR_GEOCACHES);
+    const { error, result } = await asyncWrapper(OpenCachingService.getGeoCache(geocache[0]));
 
-    if (!error) {
-      console.log(result.data)
-      commit(SET_GEOCACHES, result.data);
-    } else {
-      console.log(error);
-    }
-  }
+    !error ? commit(SET_GEOCACHES, result.data) : console.error(error);
+  },
+  addLogs({ commit }, data) {
+    // commit(data)
+    console.log(data);
+
+    data.map(cache => {
+      // console.log(cache)
+      const data = {
+        cacheCode: cache[0],
+        when: cache[1],
+        logType: cache[2],
+        comment: 'Test aplikacji do logow'
+      }
+
+      setTimeout(async () => {
+        const { error, result } = await asyncWrapper(OpenCachingService.submitLogBook(data));
+
+        console.log('error, result', error, result);
+      }, 500)
+
+    })
+    // const data = {
+    //   logtype: 
+    // }
+  },
+  setFieldNotes({ commit }, data) {
+    commit(SET_FIELDNOTES, data);
+  },
 }
 
 const mutations = {
   [SET_GEOCACHES] (state, payload) {
     state.geocaches.push(payload);
+  },
+  [CLEAR_GEOCACHES] (state) {
+    state.geocaches = [];
+  },
+  [SET_FIELDNOTES] (state, payload) {
+    state.fieldNotes.push(payload);
+  },
+  [CLEAR_FIELDNOTES] (state) {
+    state.fieldNotes = []
   }
 }
 
