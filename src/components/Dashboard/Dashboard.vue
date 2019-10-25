@@ -2,15 +2,14 @@
   <v-container fluid class="dashboard">
     <v-row no-gutters>
       <v-col lg="3" class="left pa-0">
-        <Logs />
+        <Logs/>
       </v-col>
 
       <v-col lg="9" class="right pa-0">
+        <p class="text-center">{{ username }}</p>
         <input type="file" id="file" ref="file" @change="test" />
-        <p class="text-center">{{ username }}</p>
-        <p class="text-center">{{ username }}</p>
-        <p class="text-center">{{ username }}</p>
-        <p class="text-center">{{ username }}</p>
+
+        <v-btn @click="onAddLogs">add logs</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -25,9 +24,9 @@ export default {
     items: []
   }),
   components: { Logs },
-  computed: mapGetters(['username']),
+  computed: mapGetters(['username', 'fieldNotes']),
   methods: {
-    ...mapActions(['getGeoCache']),
+    ...mapActions(['getGeoCache', 'setFieldNotes', 'addLogs']),
     test(event) {
       const reader = new FileReader();
 
@@ -35,11 +34,17 @@ export default {
         const lines = event.target.result.split('\n');
 
         for (let line = 0; line < lines.length; line++) {
-          console.log(lines[line]);
+          let data = lines[line].split(',');
 
-          this.getGeoCache(lines[line].split(',')[0]);
-          // this.items.push(lines[line].split(','));
-          // console.log(this.items);
+          // console.log();
+
+          // if (!data[3].split('"')) {
+          //   console.log(data[0])
+          // }
+          if (data[0]) {
+            this.getGeoCache(data);
+            this.setFieldNotes(data);
+          }
         }
       }
 
@@ -48,6 +53,9 @@ export default {
       }
 
       reader.readAsText(event.target.files[0]);
+    },
+    onAddLogs() {
+      this.addLogs(this.fieldNotes)
     }
   }
 }
