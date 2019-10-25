@@ -7,7 +7,7 @@ const state = {
 }
 
 const getters = {
-  caches: state => {
+  geocaches: state => {
     return state.geocaches
   }
 }
@@ -18,6 +18,7 @@ const actions = {
 
     if (!error) {
       console.log(result.data)
+      commit(SET_GEOCACHES, result.data);
     } else {
       console.log(error);
     }
@@ -26,7 +27,7 @@ const actions = {
 
 const mutations = {
   [SET_GEOCACHES] (state, payload) {
-    state.geocaches = payload;
+    state.geocaches.push(payload);
   }
 }
 
