@@ -4,13 +4,9 @@
     tile
     class="logs"
   >
-    <!-- <div v-for="n in 15" :key="n">
-      <LogItem :cacheName="'cache name'" />
-    </div> -->
-
     <div v-if="geocaches">
       <div v-for="(geocache, index) in geocaches" :key="index">
-        <LogItem :cacheName="geocache.name" />
+        <LogItem :geocache="geocache" />
       </div>
     </div>
   </v-card>
@@ -29,7 +25,7 @@ export default {
 
 <style>
 .logs {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: calc(100vh - 64px);
 }
 </style>
