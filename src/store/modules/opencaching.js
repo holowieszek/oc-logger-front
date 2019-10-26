@@ -24,25 +24,19 @@ const actions = {
     !error ? commit(SET_GEOCACHES, result.data) : console.error(error);
   },
   addLogs({ commit }, data) {
-    // commit(data)
-      data.map((cache, index, array) => {
-        // console.log(cache)
-        const data = {
-          cacheCode: cache[0],
-          when: cache[1],
-          logType: cache[2],
-          comment: 'Test aplikacji do logow ' + index
-        }
+    data.map((cache, index) => {
+      const data = {
+        cacheCode: cache[0],
+        when: cache[1],
+        logType: cache[2],
+        comment: 'Test aplikacji do logow ' + index
+      }
 
-        setTimeout(async () => {
-          const { error, result } = await asyncWrapper(OpenCachingService.submitLogBook(data));
-          console.log('error, result', error, result);
-        }, index * 500)
-
-          // setTimeout(() => console.log(data), 500);
-            // console.log('error, result', error, result);
-  
-      })
+      setTimeout(async () => {
+        const { error, result } = await asyncWrapper(OpenCachingService.submitLogBook(data));
+        console.log('error, result', error, result);
+      }, index * 500)
+    })
   },
   setFieldNotes({ commit }, data) {
     commit(SET_FIELDNOTES, data);
