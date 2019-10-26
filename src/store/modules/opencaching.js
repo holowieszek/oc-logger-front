@@ -25,27 +25,24 @@ const actions = {
   },
   addLogs({ commit }, data) {
     // commit(data)
-    console.log(data);
+      data.map((cache, index, array) => {
+        // console.log(cache)
+        const data = {
+          cacheCode: cache[0],
+          when: cache[1],
+          logType: cache[2],
+          comment: 'Test aplikacji do logow ' + index
+        }
 
-    data.map(cache => {
-      // console.log(cache)
-      const data = {
-        cacheCode: cache[0],
-        when: cache[1],
-        logType: cache[2],
-        comment: 'Test aplikacji do logow'
-      }
+        setTimeout(async () => {
+          const { error, result } = await asyncWrapper(OpenCachingService.submitLogBook(data));
+          console.log('error, result', error, result);
+        }, index * 500)
 
-      setTimeout(async () => {
-        const { error, result } = await asyncWrapper(OpenCachingService.submitLogBook(data));
-
-        console.log('error, result', error, result);
-      }, 500)
-
-    })
-    // const data = {
-    //   logtype: 
-    // }
+          // setTimeout(() => console.log(data), 500);
+            // console.log('error, result', error, result);
+  
+      })
   },
   setFieldNotes({ commit }, data) {
     commit(SET_FIELDNOTES, data);
