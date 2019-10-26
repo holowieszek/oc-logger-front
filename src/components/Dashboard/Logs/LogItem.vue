@@ -13,9 +13,3 @@ export default {
   props: ['geocache']
 }
 </script>
-
-<style>
-.log:nth-child(even) {
-  background: #F9F9F9
-}
-</style>
