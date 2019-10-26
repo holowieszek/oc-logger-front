@@ -1,15 +1,25 @@
 <template>
   <v-container fluid class="dashboard">
     <v-row no-gutters>
-      <v-col lg="3" class="left pa-0">
-        <Logs/>
+      <v-col lg="2" md="6" class="left pa-0">
+        <Logs />
       </v-col>
 
-      <v-col lg="9" class="right pa-0">
+      <v-col lg="10" md="6" class="right pa-5">
         <p class="text-center">{{ username }}</p>
         <input type="file" id="file" ref="file" @change="test" />
 
+        <v-textarea
+          label="Comment"
+          v-model="comment"
+        ></v-textarea>
+
+        {{ comment }}
+
         <v-btn @click="onAddLogs">add logs</v-btn>
+
+        {{ fieldNotes.length }}
+        {{ loggedGeocaches.length }}
       </v-col>
     </v-row>
   </v-container>
@@ -21,10 +31,11 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   data: () => ({
-    items: []
+    items: [],
+    comment: ''
   }),
   components: { Logs },
-  computed: mapGetters(['username', 'fieldNotes']),
+  computed: mapGetters(['username', 'fieldNotes', 'loggedGeocaches']),
   methods: {
     ...mapActions(['getGeoCache', 'setFieldNotes', 'addLogs']),
     test(event) {
@@ -36,11 +47,6 @@ export default {
         for (let line = 0; line < lines.length; line++) {
           let data = lines[line].split(',');
 
-          // console.log();
-
-          // if (!data[3].split('"')) {
-          //   console.log(data[0])
-          // }
           if (data[0]) {
             this.getGeoCache(data);
             this.setFieldNotes(data);
@@ -55,7 +61,9 @@ export default {
       reader.readAsText(event.target.files[0]);
     },
     onAddLogs() {
-      this.addLogs(this.fieldNotes)
+      const data = { fieldNotes: this.fieldNotes, comment: this.comment }
+
+      this.addLogs(data)
     }
   }
 }
@@ -63,18 +71,12 @@ export default {
 
 <style scoped>
 .dashboard {
-  background: red !important;
   height: calc(100vh - 64px);
   padding: 0;
   overflow: hidden;
 }
 
-.dashboard .left {
-  background: blue;
-}
-
 .dashboard .right {
-  background: yellow;
   height: calc(100vh - 64px);
 }
 </style>
